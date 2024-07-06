@@ -33,6 +33,8 @@ HeatpumpIR* HeatpumpIRFactory::create(const char *modelName) {
     return new GreeYACHeatpumpIR();
   } else if (strcmp_P(modelName, PSTR("greeyt")) == 0) {
     return new GreeYTHeatpumpIR();
+  } else if (strcmp_P(modelName, PSTR("greeyap")) == 0) {
+    return new GreeYAPHeatpumpIR();
   } else if (strcmp_P(modelName, PSTR("hisense_aud")) == 0) {
     return new HisenseHeatpumpIR();
   } else if (strcmp_P(modelName, PSTR("hitachi")) == 0) {
