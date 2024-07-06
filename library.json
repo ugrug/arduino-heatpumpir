@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ToniA/arduino-heatpumpir.git"
+    "url": "https://github.com/ugrug/arduino-heatpumpir.git"
   },
   "frameworks": "arduino",
   "platforms": ["atmelavr", "espressif32", "espressif8266"],
@@ -18,7 +18,6 @@
     {
       "owner": "crankyoldgit",
       "name": "IRremoteESP8266",
-      "version": "~2.8.4",
       "platforms": ["espressif8266", "espressif32"]
     }
   ]
