@@ -1,5 +1,14 @@
 #include "GreeHeatpumpIR.h"
 
+#define GREE_YAP_MOD
+
+#ifdef GREE_YAP_MOD
+#include "esp_log.h"
+//#include "esphome/core/log.h"
+#include "/usr/local/lib/python3.10/dist-packages/esphome/core/log.h"
+static const char *const TAG = "GreeHeatpumpIR";
+#endif
+
 namespace {
 
 void convert_params(
@@ -206,6 +215,10 @@ void GreeHeatpumpIR::send(IRSender& IR, uint8_t powerModeCmd, uint8_t operatingM
     powerMode, operatingMode, fanSpeed,
     temperature, swingV, swingH);
 
+#ifdef GREE_YAP_MOD
+  esphome::ESP_LOGI(TAG, "GreeHeatpumpIR::send");
+#endif
+
   sendGree(IR, powerMode, operatingMode, fanSpeed, temperature, swingV, swingH, turboMode, iFeelMode);
 }
 
@@ -220,6 +233,10 @@ void GreeHeatpumpIR::sendGree(IRSender& IR, uint8_t powerMode, uint8_t operating
       fanSpeed, temperature,
       swingV, swingH,
       turboMode, iFeelMode);
+
+#ifdef GREE_YAP_MOD
+  esphome::ESP_LOGI(TAG, "GreeHeatpumpIR::sendGree");
+#endif
 
   calculateChecksum(buffer);
   sendBuffer(IR, buffer);
@@ -303,6 +320,10 @@ void GreeiFeelHeatpumpIR::generateCommand(uint8_t * buffer,
   if (iFeelMode) {
     buffer[5] |= GREE_IFEEL_BIT;
   }
+
+#ifdef GREE_YAP_MOD
+  esphome::ESP_LOGI(TAG, " GreeiFeelHeatpumpIR::generateCommand");
+#endif
 }
 
 void GreeYACHeatpumpIR::generateCommand(uint8_t * buffer,
@@ -370,7 +391,7 @@ void GreeYAPHeatpumpIR::generateCommand(uint8_t * buffer,
             uint8_t fanSpeed, uint8_t temperature,
             uint8_t swingV, uint8_t swingH,
             bool turboMode, bool iFeelMode) {
-  generateCommand(buffer,
+  GreeYAPHeatpumpIR::generateCommand(buffer,
                   powerMode, operatingMode,
                   fanSpeed, temperature,
                   swingV, swingH,
@@ -403,11 +424,30 @@ void GreeYAPHeatpumpIR::generateCommand(uint8_t * buffer,
 
   buffer[4] = swingV | (swingH << 4);
 
+#ifndef GREE_YAP_MOD
   buffer[5] = 0x82 |
     (iFeelMode ? (1 << 2) : 0) |  // note that this is different than in the other devices
     (enableWiFi ? (1 << 6) : 0);
+#else
+  //mod
+  buffer[5] = 0x80 |
+    (iFeelMode ? (1 << 2) : 0) |
+    (enableWiFi ? (1 << 6) : 0);
+#endif
 
+#ifndef GREE_YAP_MOD
   buffer[7] = (sthtMode ? (1 << 2) : 0);
+#else
+  //mod
+  buffer[7] = 0xA0 | (sthtMode ? (1 << 2) : 0);
+#endif
+
+#ifdef GREE_YAP_MOD
+  /**/
+  esphome::ESP_LOGI(TAG, "GreeYAPHeatpumpIR::generateCommand: IR bytes: 0x%02X%02X%02X%02X%02X%02X%02X%02X",.
+    buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
+  /**/
+#endif
 
   memset(buffer + 8, 0, 16);
   memcpy(buffer + 8, buffer, 3);
@@ -524,6 +564,10 @@ void GreeYAPHeatpumpIR::sendGree(
 
   uint8_t buffer[24];
 
+#ifdef GREE_YAP_MOD
+  esphome::ESP_LOGI(TAG, "GreeYAPHeatpumpIR::sendGree: IR: wifi: %s", enableWiFi ? "on" : "off");
+#endif
+
   generateCommand(
       buffer,
       powerMode, operatingMode,
@@ -551,6 +595,10 @@ void GreeYAPHeatpumpIR::send(
           bool sthtMode, bool enableWiFi) {
   uint8_t powerMode, operatingMode, fanSpeed, temperature, swingV, swingH;
 
+#ifdef GREE_YAP_MOD
+  esphome::ESP_LOGI(TAG, "GreeYAPHeatpumpIR::send: IR: wifi: %s", enableWiFi ? "on" : "off");
+#endif
+
   convert_params(
     powerModeCmd, operatingModeCmd, fanSpeedCmd, temperatureCmd,
     swingVCmd, swingHCmd, turboMode, iFeelMode,
@@ -567,6 +615,10 @@ void GreeYAPHeatpumpIR::send(
 // Sends current sensed temperatures, YAC remotes/supporting units only
 void GreeiFeelHeatpumpIR::send(IRSender& IR, uint8_t currentTemperature)
 {
+#ifdef GREE_YAP_MOD
+  esphome::ESP_LOGI(TAG, "GreeiFeelHeatpumpIR::send: IR: currentTemperature: %d", currentTemperature);
+#endif
+
   uint8_t GreeTemplate[] = { 0x00, 0x00 };
 
   GreeTemplate[0] = currentTemperature;
