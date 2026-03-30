@@ -216,7 +216,7 @@ void GreeHeatpumpIR::send(IRSender& IR, uint8_t powerModeCmd, uint8_t operatingM
     temperature, swingV, swingH);
 
 #ifdef GREE_YAP_MOD
-  esphome::ESP_LOGI(TAG, "GreeHeatpumpIR::send");
+  ESP_LOGI(TAG, "GreeHeatpumpIR::send");
 #endif
 
   sendGree(IR, powerMode, operatingMode, fanSpeed, temperature, swingV, swingH, turboMode, iFeelMode);
@@ -235,7 +235,7 @@ void GreeHeatpumpIR::sendGree(IRSender& IR, uint8_t powerMode, uint8_t operating
       turboMode, iFeelMode);
 
 #ifdef GREE_YAP_MOD
-  esphome::ESP_LOGI(TAG, "GreeHeatpumpIR::sendGree");
+  ESP_LOGI(TAG, "GreeHeatpumpIR::sendGree");
 #endif
 
   calculateChecksum(buffer);
@@ -322,7 +322,7 @@ void GreeiFeelHeatpumpIR::generateCommand(uint8_t * buffer,
   }
 
 #ifdef GREE_YAP_MOD
-  esphome::ESP_LOGI(TAG, " GreeiFeelHeatpumpIR::generateCommand");
+  ESP_LOGI(TAG, " GreeiFeelHeatpumpIR::generateCommand");
 #endif
 }
 
@@ -444,7 +444,7 @@ void GreeYAPHeatpumpIR::generateCommand(uint8_t * buffer,
 
 #ifdef GREE_YAP_MOD
   /**/
-  esphome::ESP_LOGI(TAG, "GreeYAPHeatpumpIR::generateCommand: IR bytes: 0x%02X%02X%02X%02X%02X%02X%02X%02X",.
+  ESP_LOGI(TAG, "GreeYAPHeatpumpIR::generateCommand: IR bytes: 0x%02X%02X%02X%02X%02X%02X%02X%02X",.
     buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
   /**/
 #endif
@@ -565,7 +565,7 @@ void GreeYAPHeatpumpIR::sendGree(
   uint8_t buffer[24];
 
 #ifdef GREE_YAP_MOD
-  esphome::ESP_LOGI(TAG, "GreeYAPHeatpumpIR::sendGree: IR: wifi: %s", enableWiFi ? "on" : "off");
+  ESP_LOGI(TAG, "GreeYAPHeatpumpIR::sendGree: IR: wifi: %s", enableWiFi ? "on" : "off");
 #endif
 
   generateCommand(
@@ -596,7 +596,7 @@ void GreeYAPHeatpumpIR::send(
   uint8_t powerMode, operatingMode, fanSpeed, temperature, swingV, swingH;
 
 #ifdef GREE_YAP_MOD
-  esphome::ESP_LOGI(TAG, "GreeYAPHeatpumpIR::send: IR: wifi: %s", enableWiFi ? "on" : "off");
+  ESP_LOGI(TAG, "GreeYAPHeatpumpIR::send: IR: wifi: %s", enableWiFi ? "on" : "off");
 #endif
 
   convert_params(
@@ -616,7 +616,7 @@ void GreeYAPHeatpumpIR::send(
 void GreeiFeelHeatpumpIR::send(IRSender& IR, uint8_t currentTemperature)
 {
 #ifdef GREE_YAP_MOD
-  esphome::ESP_LOGI(TAG, "GreeiFeelHeatpumpIR::send: IR: currentTemperature: %d", currentTemperature);
+  ESP_LOGI(TAG, "GreeiFeelHeatpumpIR::send: IR: currentTemperature: %d", currentTemperature);
 #endif
 
   uint8_t GreeTemplate[] = { 0x00, 0x00 };
