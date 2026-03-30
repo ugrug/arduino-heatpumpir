@@ -444,7 +444,7 @@ void GreeYAPHeatpumpIR::generateCommand(uint8_t * buffer,
 
 #ifdef GREE_YAP_MOD
   /**/
-  ESP_LOGI(TAG, "GreeYAPHeatpumpIR::generateCommand: IR bytes: 0x%02X%02X%02X%02X%02X%02X%02X%02X",.
+  ESP_LOGI(TAG, "GreeYAPHeatpumpIR::generateCommand: IR bytes: 0x%02X%02X%02X%02X%02X%02X%02X%02X", \
     buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7]);
   /**/
 #endif
